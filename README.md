@@ -29,12 +29,32 @@ cmake --build build --target sherpa-onnx-c-api
 cp build/_deps/onnxruntime-src/lib/libonnxruntime.so build/lib
 ```
 
-#### Build and run
+#### Compile
 
-```
+```bash
 export SHERPA_ONNX_LIB_DIR=./sherpa-onnx/build/lib
 export LD_LIBRARY_PATH=./sherpa-onnx/build/lib
-make run
+cargo build
 ```
 
+### Running
+
+To run ou need model and bpe vocabulary prepared and exported using this repo: https://github.com/airenas/Edge-Punct-Casing
+
+```bash
+export ONNX_MODEL=./model/model.int8.onnx
+export BPE_VOCAB=./model/bpe_vocab
+cargo run
+```
+
+### Example
+
+
+```bash
+curl -X POST http://localhost:6007/punctuate -H "content-type: application/json" -d '{"text":"p jonaitis atvyko iš kauno kad pamatytų vilnių ir priimtų sprendimą tai buvo nelengva užduotis"}'
+```
+```json
+
+{"text":"P. Jonaitis atvyko iš Kauno, kad pamatytų Vilnių ir priimtų sprendimą. Tai buvo nelengva užduotis,"}⏎   
+```
 ---
