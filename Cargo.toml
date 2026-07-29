@@ -1,0 +1,47 @@
+[package]
+name = "text-punctuator"
+version = "0.1.0"
+edition = "2021"
+build = "build.rs"
+
+[dependencies]
+log = "0.4"
+clap = { version = "4.5", features = ["derive", "env"] }
+tokio = { version = "1.42", features = ["full", "tracing"] }
+tokio-util = "0.7"
+serde = { version = "1.0", features = ["derive"] }
+serde_derive = "1.0"
+anyhow = "1.0"
+sherpa-onnx = { version = "1.13", default-features = false, features = ["shared"] }
+reqwest = { version = "0.12", features = ["json"] }
+async-trait = "0.1"
+regex = "1.10"
+once_cell = "1.19"
+prometheus = "0.13"
+url = "=2.5"
+chrono = "0.4"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tracing = "0.1"
+axum = { version = "0.7", features = ["macros", "http2"] }
+axum-server = { version = "0.7", features = ["tls-rustls"] }
+tower-http = { version = "0.6", features = ["limit", "timeout", "trace"] }
+thiserror = "1.0"
+linkify = "0.10"
+
+[dev-dependencies]
+approx = "0.5"
+more-asserts = "0.3"
+pretty_assertions = "1.4"
+
+[[bin]]
+name = "text-punctuator-ws"
+path = "src/main.rs"
+
+[features]
+profiling = []
+
+[profile.release]
+opt-level = 3
+codegen-units = 1
+lto = "thin"
+debug = false
