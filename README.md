@@ -1,2 +1,2 @@
-# speech-punctuator
+# text-punctuator
 Restores casing and punctuation for a plain speech. Rust web service backed by sherpa onnx ...
