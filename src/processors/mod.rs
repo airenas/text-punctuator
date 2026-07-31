@@ -1,2 +1,2 @@
-pub mod restorer;
 pub mod metrics;
+pub mod restorer;

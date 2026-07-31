@@ -12,7 +12,9 @@ tokio-util = "0.7"
 serde = { version = "1.0", features = ["derive"] }
 serde_derive = "1.0"
 anyhow = "1.0"
-sherpa-onnx = { version = "1.13", default-features = false, features = ["shared"] }
+sherpa-onnx = { version = "1.13", default-features = false, features = [
+    "shared",
+] }
 reqwest = { version = "0.12", features = ["json"] }
 async-trait = "0.1"
 regex = "1.10"
@@ -23,7 +25,6 @@ chrono = "0.4"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 tracing = "0.1"
 axum = { version = "0.7", features = ["macros", "http2"] }
-axum-server = { version = "0.7", features = ["tls-rustls"] }
 tower-http = { version = "0.6", features = ["limit", "timeout", "trace"] }
 thiserror = "1.0"
 linkify = "0.10"

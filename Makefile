@@ -27,6 +27,15 @@ test/lint:
 	@cargo clippy -V
 	cargo clippy --all-targets --all-features -- -D warnings
 .PHONY: test/lint	
+test/format:
+	cargo fmt -- --check
+.PHONY: test/format
+audit:
+	# cargo install cargo-audit
+	cargo audit
+.PHONY: audit
+test/all: test/unit test/lint test/format audit
+.PHONY: test/all
 ###############################################################################
 clean:
 	rm -r -f target

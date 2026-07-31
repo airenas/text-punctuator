@@ -1,6 +1,7 @@
 use axum::extract::DefaultBodyLimit;
 use axum::middleware;
 use clap::Parser;
+use reqwest::StatusCode;
 use std::sync::Arc;
 use std::time::Duration;
 use text_punctuator::{
@@ -84,7 +85,8 @@ async fn main_int(cfg: Args) -> anyhow::Result<()> {
         tracing::debug!("expected drop tx_close");
     });
 
-    let restorer = processors::restorer::Restorer::new(&cfg.onnx_model, &cfg.bpe_vocab, cfg.workers)?;
+    let restorer =
+        processors::restorer::Restorer::new(&cfg.onnx_model, &cfg.bpe_vocab, cfg.workers)?;
     let boxed_restorer: Box<dyn data::Processor + Send + Sync> = Box::new(restorer);
 
     let srv = Arc::new(RwLock::new(Service {
@@ -113,7 +115,7 @@ async fn main_int(cfg: Args) -> anyhow::Result<()> {
         .layer((
             DefaultBodyLimit::max(1024 * 1024),
             TraceLayer::new_for_http(),
-            TimeoutLayer::new(Duration::from_secs(10)),
+            TimeoutLayer::with_status_code(StatusCode::REQUEST_TIMEOUT, Duration::from_secs(10)),
         ));
 
     std::mem::drop(_perf_log);
@@ -121,8 +123,7 @@ async fn main_int(cfg: Args) -> anyhow::Result<()> {
 
     let listener = TcpListener::bind(format!("0.0.0.0:{}", cfg.port)).await?;
 
-    let handle = axum_server::Handle::new();
-    let shutdown_future = shutdown_signal_handle(handle.clone(), cancel_token.clone());
+    let shutdown_future = shutdown_signal_handle(cancel_token.clone());
     tokio::spawn(shutdown_future);
 
     // Run the server with graceful shutdown
@@ -136,8 +137,7 @@ async fn main_int(cfg: Args) -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn shutdown_signal_handle(handle: axum_server::Handle, cancel_token: CancellationToken) {
+async fn shutdown_signal_handle(cancel_token: CancellationToken) {
     cancel_token.cancelled().await;
     tracing::trace!("Received termination signal shutting down");
-    handle.graceful_shutdown(Some(Duration::from_secs(10)));
 }

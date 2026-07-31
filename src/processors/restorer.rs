@@ -18,7 +18,7 @@ impl Restorer {
                 bpe_vocab: Some(bpe_vocab.to_string()),
                 num_threads: workers,
                 provider: Some("cpu".to_string()),
-                debug: true
+                debug: true,
             },
         };
         let model = OnlinePunctuation::create(&config)
