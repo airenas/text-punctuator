@@ -22,21 +22,22 @@ pub struct LiveResponse {
 }
 
 #[derive(Debug, Serialize, Clone)]
-pub struct PunctuateResponse {
+pub struct PunctuationResponse {
+    pub text: String,
+    pub result: String,
+}
+
+#[derive(Deserialize)]
+pub struct PunctuationRequest {
     pub text: String,
 }
 
 #[derive(Deserialize)]
-pub struct PunctuateRequest {
-    pub text: String,
-}
-
-#[derive(Deserialize)]
-pub struct PunctuateParams {
+pub struct PunctuationParams {
     pub debug: Option<String>,
 }
 
-impl PunctuateParams {
+impl PunctuationParams {
     pub fn debug(&self) -> bool {
         self.debug.is_some()
     }

@@ -51,10 +51,11 @@ cargo run
 
 
 ```bash
-curl -X POST http://localhost:6007/punctuate -H "content-type: application/json" -d '{"text":"p jonaitis atvyko iš kauno kad pamatytų vilnių ir priimtų sprendimą tai buvo nelengva užduotis"}'
+curl -X POST http://localhost:6007/punctuation -H "content-type: application/json" -d '{"text":"p jonaitis atvyko iš kauno kad pamatytų vilnių ir priimtų sprendimą tai buvo nelengva užduotis"}'
 ```
 ```json
 
-{"text":"P. Jonaitis atvyko iš Kauno, kad pamatytų Vilnių ir priimtų sprendimą. Tai buvo nelengva užduotis,"}⏎   
+{"text":"p jonaitis atvyko iš kauno kad pamatytų vilnių ir priimtų sprendimą tai buvo nelengva užduotis", 
+"result":"P. Jonaitis atvyko iš Kauno, kad pamatytų Vilnių ir priimtų sprendimą. Tai buvo nelengva užduotis,"}⏎   
 ```
 ---

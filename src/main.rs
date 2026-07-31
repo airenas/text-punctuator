@@ -99,7 +99,7 @@ async fn main_int(cfg: Args) -> anyhow::Result<()> {
     let helper_router = axum::Router::new().route("/live", get(handlers::live::handler));
 
     let main_router = Router::new()
-        .route("/punctuate", post(handlers::punctuate::handler))
+        .route("/punctuation", post(handlers::punctuation::handler))
         .with_state(srv.clone())
         .layer(middleware::from_fn(move |req, next| {
             let mc = metrics_cl.clone();
