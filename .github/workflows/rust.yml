@@ -27,5 +27,8 @@ jobs:
       - name: Test 
         run: make test/unit     
 
+      - name: Fmt 
+        run: make test/format
+
       - name: Lint 
         run: make test/lint     
